@@ -1,0 +1,5 @@
+# Directories
+train/
+
+# Files
+*.csv
