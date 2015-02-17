@@ -1,6 +1,7 @@
 # Directories
 train/
 test/
+data/
 
 # Files
 *.csv
