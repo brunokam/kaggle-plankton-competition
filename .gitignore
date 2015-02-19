@@ -2,6 +2,7 @@
 train/
 test/
 data/
+imageData/
 
 # Files
 *.csv

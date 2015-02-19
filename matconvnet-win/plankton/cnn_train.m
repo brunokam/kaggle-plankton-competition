@@ -1,4 +1,3 @@
-
 function [net, info] = cnn_train(net, imdb, getBatch, varargin)
 % CNN_TRAIN   Demonstrates training a CNN
 %    CNN_TRAIN() is an example learner implementing stochastic gradient
@@ -8,7 +7,7 @@ function [net, info] = cnn_train(net, imdb, getBatch, varargin)
 
 opts.train = [] ;
 opts.val = [] ;
-opts.numEpochs =  1;
+opts.numEpochs = 300 ;
 opts.batchSize = 256 ;
 opts.useGpu = false ;
 opts.learningRate = 0.001 ;
@@ -125,7 +124,6 @@ for epoch=1:opts.numEpochs
     % get next image batch and labels
     batch = train(t:min(t+opts.batchSize-1, numel(train))) ;
     batch_time = tic ;
-    
     fprintf('training: epoch %02d: processing batch %3d of %3d ...', epoch, ...
             fix(t/opts.batchSize)+1, ceil(numel(train)/opts.batchSize)) ;
     [im, labels] = getBatch(imdb, batch) ;
@@ -136,7 +134,7 @@ for epoch=1:opts.numEpochs
     if opts.useGpu
       im = gpuArray(im) ;
     end
-    
+
     % backprop
     net.layers{end}.class = labels ;
     res = vl_simplenn(net, im, one, res, ...
