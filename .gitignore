@@ -7,3 +7,5 @@ imageData/
 # Files
 *.csv
 *.pdf
+*.asv
+submission.mat
