@@ -2,21 +2,22 @@ load('labelledImages.mat')  % Load labels
 parpool(4);  % Set workers for paraller computations
 
 % Set parameters
-size = 40;  % Size of images desired
+sizeImg = 28;  % Size of images desired
 imagesNumber = 30336;  % Total number of images to read
 
 % Read images
-images = zeros(imagesNumber, size * size);  % Initialize images matrix
-parfor i = 1 : imagesNumber
-    img = imresize(imread(labelledImages{i,1}), [size size]);
-    images(i,:) = img(:);
+images = zeros(imagesNumber, sizeImg * sizeImg);  % Initialize images matrix
+for i = 1 : imagesNumber
+    img = imresize(imread(labelledImages{i, 1}), [sizeImg sizeImg]);
+    images(i, :) = img(:);
     if mod(i, 100) == 0
         fprintf('%i / %i \n', i, imagesNumber);
     end
 end
 
 % Save images
-trainImages40 = images;
+trainImages28 = images;
 mkdir('../../imageData')
-save(strcat('../../imageData/trainImages', int2str(size)), 'trainImages40', '-v7.3'); 
+save(strcat('../../imageData/trainImages', int2str(sizeImg)), 'trainImages28', '-v7.3');
 clear images;
+delete(gcp);

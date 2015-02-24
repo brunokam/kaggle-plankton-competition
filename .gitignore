@@ -9,3 +9,4 @@ imageData/
 *.pdf
 *.asv
 submission.mat
+.DS_Store
