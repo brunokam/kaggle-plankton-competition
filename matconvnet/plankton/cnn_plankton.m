@@ -108,27 +108,30 @@ labels = imdb.images.labels(1,batch);
 % --------------------------------------------------------------------
 function imdb = getImages(opts)
 % --------------------------------------------------------------------
-size = 40;
-load('trainImages40.mat');
-load('labels.mat');
-images = trainImages40;
-trainImages = images(1:28000,:)';
-trainImages = reshape(trainImages, size, size, []);
+imgSize = 28;
+load('augmentedTrainImages28.mat');
+load('augmentedLabels.mat');
+images = augmentedTrainImages28;
+labels = augmentedLabels;
 
-testImages = images(28001:end, :)';
-testImages = reshape(testImages, size, size, []);
+[imageNum, ~] = size(images);
+border = floor(0.8 * imageNum);
+
+trainImages = images(1:border,:)';
+trainImages = reshape(trainImages, imgSize, imgSize, []);
+
+testImages = images((border + 1):end, :)';
+testImages = reshape(testImages, imgSize, imgSize, []);
 
 x1 = trainImages;
 x2 = testImages;
 
-y1 = labels(1:28000, 1)';
+y1 = labels(1:border, 1)';
 y1 = [y1];
-y1 = cell2mat(y1);
 
-y2 = labels(28001:end, 1)';
-y2 = cell2mat(y2);
+y2 = labels((border + 1):end, 1)';
 
-imdb.images.data = single(reshape(cat(3, x1, x2), size, size, 1, [])) ;
+imdb.images.data = single(reshape(cat(3, x1, x2), imgSize, imgSize, 1, [])) ;
 
 imdb.images.labels = cat(2, y1, y2) ;
 imdb.images.set = [ones(1,numel(y1)) 3*ones(1,numel(y2))] ;
